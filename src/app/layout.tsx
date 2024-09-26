@@ -7,7 +7,7 @@ import { Archivo, Libre_Franklin } from "next/font/google";
 import { Providers } from "../components/providers/global-providers";
 import NextTopLoader from "nextjs-toploader";
 import { cn } from "@/lib/utils";
-import { Header } from "./_header/header";
+import { Header } from "../components/header/header";
 import { Toaster } from "@/components/ui/sonner";
 const archivo = Archivo({
   subsets: ["latin"],
