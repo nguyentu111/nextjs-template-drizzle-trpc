@@ -43,6 +43,7 @@ import {
   EmailInUseError,
   LoginError,
   NotFoundError,
+  VerifyEmailError,
 } from "./errors";
 import { db } from "@/server/db";
 import { createTransaction } from "@/server/data-access/utils";
@@ -87,7 +88,6 @@ export async function registerUserUseCase(
       throw new EmailInUseError();
     }
     const user = existingUser ?? (await createUser(email));
-    console.log({ user });
     if (!existingAccount) {
       await createAccount(user.id, password);
     }
@@ -117,6 +117,9 @@ export async function signInUseCase(email: string, password: string) {
 
   if (!isPasswordCorrect) {
     throw new LoginError();
+  }
+  if (!user.emailVerified) {
+    throw new VerifyEmailError();
   }
 
   return { id: user.id };
@@ -220,7 +223,11 @@ export async function verifyEmailUseCase(token: string) {
 
   const userId = tokenEntry.userId;
 
-  await updateUser(userId, { emailVerified: new Date() });
+  await updateUser(userId, {
+    emailVerifiedAt: new Date(),
+    emailVerified: true,
+  });
   await deleteVerifyEmailToken(token);
+
   return userId;
 }

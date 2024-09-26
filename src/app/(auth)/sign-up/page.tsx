@@ -34,12 +34,6 @@ const registrationSchema = z
   });
 
 export default function RegisterPage() {
-  const { execute, isPending, error } = useServerAction(signUpAction, {
-    onError({ err }) {
-      toast.error(err.message);
-    },
-  });
-
   const form = useForm<z.infer<typeof registrationSchema>>({
     resolver: zodResolver(registrationSchema),
     defaultValues: {
@@ -48,6 +42,15 @@ export default function RegisterPage() {
       passwordConfirmation: "",
     },
   });
+  const { execute, isPending, error, isSuccess } = useServerAction(
+    signUpAction,
+    {
+      onError({ err }) {
+        toast.error(err.message);
+      },
+      onSuccess: () => form.reset(),
+    },
+  );
 
   function onSubmit(values: z.infer<typeof registrationSchema>) {
     execute(values);
@@ -56,6 +59,15 @@ export default function RegisterPage() {
   return (
     <div className="mx-auto max-w-[400px] space-y-6 py-12">
       <h1 className={cn(pageTitleStyles, "text-center")}>Sign Up</h1>
+      {isSuccess && (
+        <Alert variant="success">
+          <Terminal className="h-4 w-4" />
+          <AlertTitle>Verify link sent</AlertTitle>
+          <AlertDescription>
+            We have sent you an email with a link to verify your account.
+          </AlertDescription>
+        </Alert>
+      )}
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

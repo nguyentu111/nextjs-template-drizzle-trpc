@@ -38,3 +38,9 @@ export class LoginError extends PublicError {
     this.name = "LoginError";
   }
 }
+export class VerifyEmailError extends PublicError {
+  constructor() {
+    super("Email is not verified");
+    this.name = "VerifyEmailError";
+  }
+}

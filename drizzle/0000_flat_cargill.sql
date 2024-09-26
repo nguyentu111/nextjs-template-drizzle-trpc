@@ -62,7 +62,8 @@ CREATE TABLE `sessions` (
 CREATE TABLE `user` (
 	`id` varchar(255) NOT NULL,
 	`email` text,
-	`email_verified` timestamp,
+	`email_verified` boolean,
+	`email_verified_at` timestamp,
 	`created_at` timestamp DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	CONSTRAINT `user_id` PRIMARY KEY(`id`),

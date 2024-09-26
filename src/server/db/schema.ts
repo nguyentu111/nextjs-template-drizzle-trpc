@@ -4,6 +4,7 @@ import { createId } from "@paralleldrive/cuid2";
 import { relations, sql } from "drizzle-orm";
 import {
   bigint,
+  boolean,
   datetime,
   index,
   int,
@@ -42,7 +43,8 @@ export const accountTypeEnum = ["email", "google", "github"] as const;
 export const users = createTable("user", {
   id: varchar("id", { length: 255 }).primaryKey().$defaultFn(createId),
   email: text("email").unique(),
-  emailVerified: timestamp("email_verified"),
+  emailVerified: boolean("email_verified"),
+  emailVerifiedAt: timestamp("email_verified_at"),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: timestamp("updated_at")
     .default(sql`CURRENT_TIMESTAMP`)
@@ -113,7 +115,7 @@ export const sessions = createTable("sessions", {
   id: varchar("id", { length: 255 }).primaryKey(),
   userId: varchar("user_id", { length: 255 })
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
   expiresAt: datetime("expires_at").notNull(),
 });
 

@@ -12,7 +12,7 @@ export default function VerifySuccess() {
       </p>
 
       <Button asChild>
-        <Link href="/sign-in">Sign In</Link>
+        <Link href="/sign-in/email">Sign In</Link>
       </Button>
     </div>
   );

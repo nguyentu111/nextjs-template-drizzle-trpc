@@ -55,16 +55,17 @@ export async function createMagicUser(email: string) {
     .insert(users)
     .values({
       email,
-      emailVerified: new Date(),
+      emailVerified: true,
+      emailVerifiedAt: new Date(),
     })
     .$returningId();
   if (!returning[0]) {
     throw new Error("Failed to create magic user");
   }
-  await db.insert(accounts).values({
-    userId: returning[0].id,
-    accountType: "email",
-  });
+  // await db.insert(accounts).values({
+  //   userId: returning[0].id,
+  //   accountType: "email",
+  // });
 
   return returning[0];
 }
@@ -116,7 +117,8 @@ export async function setEmailVerified(userId: UserId) {
   await db
     .update(users)
     .set({
-      emailVerified: new Date(),
+      emailVerifiedAt: new Date(),
+      emailVerified: true,
     })
     .where(eq(users.id, userId));
 }

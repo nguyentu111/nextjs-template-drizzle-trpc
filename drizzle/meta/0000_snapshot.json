@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "9b447e48-96ea-406b-aca1-60fc66cb346a",
+  "id": "3b1f7f4c-f5a4-4b9b-bade-a27e7abe9edb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "accounts": {
@@ -451,6 +451,13 @@
         },
         "email_verified": {
           "name": "email_verified",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "email_verified_at": {
+          "name": "email_verified_at",
           "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
